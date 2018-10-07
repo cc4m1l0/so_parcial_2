@@ -49,12 +49,14 @@ int main() {
 	SimpleSemaphore semBufferCarrilDisponible("/semBufferCarrilDisponible");
 	SimpleSemaphore semBufferPesa1("/semBufferPesa1");
 	SimpleSemaphore semBufferPesa2("/semBufferPesa2");
+	SimpleSemaphore semBufferPesa3("/semBufferPesa3");
 	SimpleSemaphore semBufferCarril1("/semBufferCarril1");
 	SimpleSemaphore semBufferCarril2("/semBufferCarril2");
 	SharedMemory<cola_t> bufferpesa("/bufferpesa");
 	SharedMemory<cola_t> buffercarril("/buffercarril");
 	SharedMemory<int> pesa1("/pesa1");
 	SharedMemory<int> pesa2("/pesa2");
+	SharedMemory<int> pesa3("/pesa3");
 	SharedMemory<int> carril1("/carril1");
 	SharedMemory<int> carril2("/carril2");
 
@@ -62,6 +64,7 @@ int main() {
 	cola_t &ca = buffercarril();
 	int &p1 = pesa1();
 	int &p2 = pesa2();
+	int &p3 = pesa3();
 	int &c1 = carril1();
 	int &c2 = carril2();
 
@@ -84,6 +87,12 @@ int main() {
 			semBufferPesa2.Wait();
 			p2 = 0;
 			semBufferPesa2.Signal();
+			semBufferPesaDisponible.Signal();
+		}
+		if(dato == 3) {
+			semBufferPesa3.Wait();
+			p3 = 0;
+			semBufferPesa3.Signal();
 			semBufferPesaDisponible.Signal();
 		}
 		semCaPe.Signal();

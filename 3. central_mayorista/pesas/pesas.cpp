@@ -45,17 +45,21 @@ int main() {
 	SimpleSemaphore semBufferPesaDisponible("/semBufferPesaDisponible");
 	SimpleSemaphore semBufferPesa1("/semBufferPesa1");
 	SimpleSemaphore semBufferPesa2("/semBufferPesa2");
+	SimpleSemaphore semBufferPesa3("/semBufferPesa3");
 	SharedMemory<cola_t> bufferpesa("/bufferpesa");
 	SharedMemory<int> pesa1("/pesa1");
 	SharedMemory<int> pesa2("/pesa2");
+	SharedMemory<int> pesa3("/pesa3");
 
 	cola_t &c = bufferpesa();
 	int &p1 = pesa1();
 	int &p2 = pesa2();
+	int &p3 = pesa3();
 
 	int pesa = -1;
 	int estadopesa1 = -1;
 	int estadopesa2 = -1;
+	int estadopesa3 = -1;
 	int pid = getpid();
 	for (int cont = 0; cont < 5; cont ++) {
 		semBufferPesa1.Wait();
@@ -64,6 +68,9 @@ int main() {
 		semBufferPesa2.Wait();
 		estadopesa2 = p2;
 		semBufferPesa2.Signal();
+		semBufferPesa3.Wait();
+		estadopesa3 = p3;
+		semBufferPesa3.Signal();
 		if(estadopesa1 == 0) {
 			pesa = 1;
 			semBufferPesa1.Wait();
@@ -77,6 +84,14 @@ int main() {
 			semBufferPesa2.Wait();
 			p2 = 1;
 			semBufferPesa2.Signal();
+			semBufferPesaDisponible.Wait();
+			c[0] = pesa;
+			cout << "Pesa " << pesa << ": Está disponible " << endl;
+		} else if (estadopesa3 == 0) {
+			pesa = 3;
+			semBufferPesa3.Wait();
+			p3 = 1;
+			semBufferPesa3.Signal();
 			semBufferPesaDisponible.Wait();
 			c[0] = pesa;
 			cout << "Pesa " << pesa << ": Está disponible " << endl;
