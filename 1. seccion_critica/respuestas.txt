@@ -1,0 +1,24 @@
+1. El acceso a recursos compartidos siempre debe realizarse desde una sección crítica. 
+Respuesta: Esta regla es importante que se cumpla al utilizar el acceso a recursos compartidos ya que
+esto garantiza que sólo un proceso está accediendo al recurso compartido y que esta función se vuelva atómica y 
+así evitar que haya inconsistencias en el valor que está leyendo cada proceso, así evitamos que lean valores 
+incorrectos o que interfieran en lo que estamos haciendo. Un ejemplo de un error que puede ocurrir es
+con el manejo de una cuenta bancaria. Si varios procesos ingresan a realizar cambios sobre el valor que hay
+en el saldo de la cuenta bancaria y no se usa la sección crítica entonces se va a encontrar un problema ya
+que los dos procesos obtienen un mismo valor y hacen el descuento sobre ese valor, logrando así utilizar
+más dinero del que realmente podía. Así que es muy importante hacer el manejo de la sección crítica para
+evitar que se haga mal uso del recurso compartido.
+
+2. La sección crítica debe ser lo más pequeña posible.
+Respuesta: Al ser lo más pequeña posible, estamos ofreciendo al programa y los procesos que lo usan la noción de
+paralelismo, ya que cada proceso va adelantando y procesando lo que debe hacer antes de llegar a la sección crítica
+y de esa forma las tareas se pueden llevar acabo en menor tiempo. Si estas secciones críticas en las que ingresan los
+procesos se hacen muy grandes, entonces podemos llegar al problema de tener muchos procesos en espera de que puedan 
+ingresar a la sección crítica y que se demore cada proceso dentro de la sección crítica mucho tiempo.
+
+3. Se debe sacar una copia en la sección crítica de todas la variables compartidas que van a ser utilizadas.
+Respuesta: Esta regla es importante ya que nos evita imprimir o dar un valor equivocado al que realmente
+queremos ofrecer. Si no se realiza una copia, puede suceder el problema que ya otro proceso hizo el cambio de 
+la variable compartida y al momento de utilizarla, mostrar el valor que ha modificado otro proceso que no 
+corresponde a lo que esperaba el proceso anterior. Así que con la copia se garantiza que es el resultado
+que espera el proceso y no lo que ya un nuevo proceso ha puesto en la variable compartida.
