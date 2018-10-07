@@ -58,7 +58,6 @@ int main() {
 	int estadopesa2 = -1;
 	int pid = getpid();
 	for (int cont = 0; cont < 5; cont ++) {
-		// semCaPe.Wait();
 		semBufferPesa1.Wait();
 		estadopesa1 = p1;
 		semBufferPesa1.Signal();
@@ -70,18 +69,19 @@ int main() {
 			semBufferPesa1.Wait();
 			p1 = 1;
 			semBufferPesa1.Signal();
-		semBufferPesaDisponible.Wait();
-		c[0] = pesa;
-		cout << "Pesa " << pesa << ": Está disponible " << endl;
+			semBufferPesaDisponible.Wait();
+			c[0] = pesa;
+			cout << "Pesa " << pesa << ": Está disponible " << endl;
 		} else if (estadopesa2 == 0) {
 			pesa = 2;
 			semBufferPesa2.Wait();
 			p2 = 1;
 			semBufferPesa2.Signal();
-		semBufferPesaDisponible.Wait();
-		c[0] = pesa;
-		cout << "Pesa " << pesa << ": Está disponible " << endl;
+			semBufferPesaDisponible.Wait();
+			c[0] = pesa;
+			cout << "Pesa " << pesa << ": Está disponible " << endl;
 		} else {
+			cout << "No hay pesas disponibles. Por favor esperar... " << endl;
 			semCaPe.Wait();
 		}
 		semPeCa.Signal();
