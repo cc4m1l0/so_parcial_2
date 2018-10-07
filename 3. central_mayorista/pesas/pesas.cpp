@@ -57,9 +57,9 @@ int main() {
 	int &p3 = pesa3();
 
 	int pesa = -1;
-	int estadopesa1 = -1;
-	int estadopesa2 = -1;
-	int estadopesa3 = -1;
+	int estadopesa1 = -1; // 0 significa libre, 1 ocupado
+	int estadopesa2 = -1; // 0 significa libre, 1 ocupado
+	int estadopesa3 = -1; // 0 significa libre, 1 ocupado
 	int pid = getpid();
 	for (int cont = 0; cont < 5; cont ++) {
 		semBufferPesa1.Wait();

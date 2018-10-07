@@ -52,6 +52,8 @@ int main() {
 	SimpleSemaphore semBufferPesa3("/semBufferPesa3");
 	SimpleSemaphore semBufferCarril1("/semBufferCarril1");
 	SimpleSemaphore semBufferCarril2("/semBufferCarril2");
+	SimpleSemaphore semBufferCarril3("/semBufferCarril3");
+	SimpleSemaphore semBufferCarril4("/semBufferCarril4");
 	SharedMemory<cola_t> bufferpesa("/bufferpesa");
 	SharedMemory<cola_t> buffercarril("/buffercarril");
 	SharedMemory<int> pesa1("/pesa1");
@@ -59,6 +61,8 @@ int main() {
 	SharedMemory<int> pesa3("/pesa3");
 	SharedMemory<int> carril1("/carril1");
 	SharedMemory<int> carril2("/carril2");
+	SharedMemory<int> carril3("/carril3");
+	SharedMemory<int> carril4("/carril4");
 
 	cola_t &c = bufferpesa();
 	cola_t &ca = buffercarril();
@@ -67,6 +71,8 @@ int main() {
 	int &p3 = pesa3();
 	int &c1 = carril1();
 	int &c2 = carril2();
+	int &c3 = carril3();
+	int &c4 = carril4();
 
 	int pid = getpid();
 	int dato = -1;
@@ -106,15 +112,43 @@ int main() {
 		if(datocarril == 1) {
 			semBufferCarril1.Wait();
 			c1 = 0;
-			c2 = 0;
 			semBufferCarril1.Signal();
+			semBufferCarril2.Wait();
+			c2 = 0;
+			semBufferCarril2.Signal();
 			semBufferCarrilDisponible.Signal();
 		}
 		if(datocarril == 2) {
-			semBufferCarril2.Wait();
+			semBufferCarril1.Wait();
 			c1 = 0;
+			semBufferCarril1.Signal();
+			semBufferCarril2.Wait();
 			c2 = 0;
 			semBufferCarril2.Signal();
+			semBufferCarril3.Wait();
+			c3 = 0;
+			semBufferCarril3.Signal();
+			semBufferCarrilDisponible.Signal();
+		}
+		if(datocarril == 3) {
+			semBufferCarril2.Wait();
+			c2 = 0;
+			semBufferCarril2.Signal();
+			semBufferCarril3.Wait();
+			c3 = 0;
+			semBufferCarril3.Signal();
+			semBufferCarril4.Wait();
+			c4 = 0;
+			semBufferCarril4.Signal();
+			semBufferCarrilDisponible.Signal();
+		}
+		if(datocarril == 4) {
+			semBufferCarril3.Wait();
+			c3 = 0;
+			semBufferCarril3.Signal();
+			semBufferCarril4.Wait();
+			c4 = 0;
+			semBufferCarril4.Signal();
 			semBufferCarrilDisponible.Signal();
 		}
 		semCaDe.Signal();
